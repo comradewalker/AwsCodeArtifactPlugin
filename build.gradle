@@ -1,13 +1,13 @@
 plugins {
 //    id 'groovy'
     id 'groovy-gradle-plugin'
-//    id 'java-gradle-plugin'
+    id 'java-gradle-plugin'
     id "com.gradle.plugin-publish" version "1.2.0"
     id 'maven-publish'
 }
 
 group = "hr.rao.android.plugin"
-version = "1.0.4-groovy"
+version = "1.0.6-java"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_11
@@ -36,35 +36,35 @@ dependencies {
 gradlePlugin {
     website = "https://www.rao.hr"
     vcsUrl = "https://www.rao.hr"
-    afterEvaluate {
-        plugins {
-            println it.size()
-            def codeArtifactPlugin = it.findByName("hr.rao.android.plugin.ca")
-            codeArtifactPlugin.displayName = 'A settings plugin (AGP) that configures AWS CA repository'
-            codeArtifactPlugin.description = 'Configures AWS CA Maven repository as source for project (AGP) plugins and project dependencies.'
-            codeArtifactPlugin.tags.set(['aws', 'android'])
-            def codeArtifactPublishPlugin = it.findByName("hr.rao.android.plugin.ca-publish")
-            codeArtifactPublishPlugin.displayName = 'A project plugin (AGP) for publishing artifacts to AWS CA repository'
-            codeArtifactPublishPlugin.description = 'Configures AWS CA Maven repository for artifact publishing. Requires hr.rao.android.plugin.ca settings plugin to be applied and configured.'
-            codeArtifactPublishPlugin.tags.set(['aws', 'android', 'publish'])
-        }
-    }
-
-//    plugins {
-//        codeArtifactPlugin {
-//            id = 'hr.rao.android.plugin.ca'
-//            displayName = 'A settings plugin (AGP) that configures AWS CA repository'
-//            description = 'Configures AWS CA Maven repository as source for project (AGP) plugins and project dependencies.'
-////            tags.set(['tags', 'for', 'your', 'plugins'])
-//            implementationClass = 'hr.rao.android.plugin.CaPlugin'
-//        }
-//        codeArtifactPublishPlugin {
-//            id = 'hr.rao.android.plugin.ca-publish'
-//            displayName = 'A project plugin (AGP) for publishing artifacts to AWS CA repository'
-//            description = 'Configures AWS CA Maven repository for artifact publishing. Requires hr.rao.android.plugin.ca settings plugin to be applied and configured.'
-//            implementationClass = 'hr.rao.android.plugin.CaPublishPlugin'
+//    afterEvaluate {
+//        plugins {
+//            println it.size()
+//            def codeArtifactPlugin = it.findByName("hr.rao.android.plugin.ca")
+//            codeArtifactPlugin.displayName = 'A settings plugin (AGP) that configures AWS CA repository'
+//            codeArtifactPlugin.description = 'Configures AWS CA Maven repository as source for project (AGP) plugins and project dependencies.'
+//            codeArtifactPlugin.tags.set(['aws', 'android'])
+//            def codeArtifactPublishPlugin = it.findByName("hr.rao.android.plugin.ca-publish")
+//            codeArtifactPublishPlugin.displayName = 'A project plugin (AGP) for publishing artifacts to AWS CA repository'
+//            codeArtifactPublishPlugin.description = 'Configures AWS CA Maven repository for artifact publishing. Requires hr.rao.android.plugin.ca settings plugin to be applied and configured.'
+//            codeArtifactPublishPlugin.tags.set(['aws', 'android', 'publish'])
 //        }
 //    }
+
+    plugins {
+        codeArtifactPlugin {
+            id = 'hr.rao.android.plugin.ca'
+            displayName = 'A settings plugin (AGP) that configures AWS CA repository'
+            description = 'Configures AWS CA Maven repository as source for project (AGP) plugins and project dependencies.'
+//            tags.set(['tags', 'for', 'your', 'plugins'])
+            implementationClass = 'hr.rao.android.plugin.CaPlugin'
+        }
+        codeArtifactPublishPlugin {
+            id = 'hr.rao.android.plugin.ca-publish'
+            displayName = 'A project plugin (AGP) for publishing artifacts to AWS CA repository'
+            description = 'Configures AWS CA Maven repository for artifact publishing. Requires hr.rao.android.plugin.ca settings plugin to be applied and configured.'
+            implementationClass = 'hr.rao.android.plugin.CaPublishPlugin'
+        }
+    }
 }
 
 

@@ -28,7 +28,8 @@ class CodeArtifactPublishPluginTest extends PluginTest {
         def result = runTaskWithFailure("publish")
 
         then:
-        result.output.contains("Failed to apply plugin 'hr.rao.android.plugin.ca-publish'")
+//        result.output.contains("Failed to apply plugin 'hr.rao.android.plugin.ca-publish'")
+        result.output.contains("FAILURE: Build failed with an exception.")
         result.output.contains("Please apply the hr.rao.android.plugin.ca plugin in the settings file first and configure the codeArtifact extension")
     }
 
