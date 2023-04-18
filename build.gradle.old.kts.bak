@@ -1,0 +1,94 @@
+plugins {
+    id("groovy-gradle-plugin")
+    id("maven-publish")
+    id("com.gradle.plugin-publish") version "1.2.0"
+}
+
+group = "hr.rao.android.plugin"
+version = "1.0.1"
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+
+    withSourcesJar()
+}
+
+tasks.named("publish") {
+    dependsOn("check")
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
+    testLogging {
+        showStandardStreams = true
+    }
+
+//    testLogging.exceptionFormat = TestExceptionFormat.FULL
+
+
+//    testLogging {
+//        showStandardStreams = true
+//
+//        // set options for log level LIFECYCLE
+//        events = setOf(
+//            TestLogEvent.FAILED,
+//            TestLogEvent.PASSED,
+//            TestLogEvent.SKIPPED,
+//            TestLogEvent.STANDARD_OUT
+//        )
+//
+//        exceptionFormat = TestExceptionFormat.FULL
+//        showExceptions = true
+//        showCauses = true
+//        showStackTraces = true
+//
+//        // set options for log level DEBUG and INFO
+//        debug {
+//            events = setOf(
+//                TestLogEvent.STARTED,
+//                TestLogEvent.FAILED,
+//                TestLogEvent.PASSED,
+//                TestLogEvent.SKIPPED,
+//                TestLogEvent.STANDARD_ERROR,
+//                TestLogEvent.STANDARD_OUT
+//            )
+//
+//            exceptionFormat = TestExceptionFormat.FULL
+//        }
+//
+//        info.events = debug.events
+//        info.exceptionFormat = debug.exceptionForma
+//    }
+}
+
+dependencies {
+    implementation("software.amazon.awssdk:codeartifact:2.20.44")
+
+    testImplementation(platform("org.spockframework:spock-bom:2.4-M1-groovy-3.0"))
+    testImplementation("org.spockframework:spock-core")
+    testImplementation("com.github.tomakehurst:wiremock-jre8-standalone:2.35.0")
+}
+
+pluginBundle {
+    website.set("https://www.rao.hr")
+}
+
+gradlePlugin {
+
+    plugins {
+        create("codeArtifactPlugin") {
+            id = "hr.rao.android.plugin.ca"
+            displayName = "A settings plugin (AGP) that configures AWS CA repository"
+            description = "Configures AWS CA Maven repository as source for project (AGP) plugins and project dependencies."
+//            tags.set(["tags", "for", "your", "plugins"])
+            implementationClass = "hr.rao.android.plugin.ca.settings.gradle"
+        }
+        create("codeArtifactPlugin") {
+            id = "hr.rao.android.plugin.ca"
+            displayName = "A project plugin (AGP) for publishing artifacts to AWS CA repository"
+            description = "Configures AWS CA Maven repository for artifact publishing. Requires hr.rao.android.plugin.ca settings plugin to be applied and configured."
+            implementationClass = "hr.rao.android.plugin.ca-publish.gradle"
+        }
+    }
+}

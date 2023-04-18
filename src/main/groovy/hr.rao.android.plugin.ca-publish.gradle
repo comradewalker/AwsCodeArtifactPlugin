@@ -1,0 +1,14 @@
+plugins {
+    id("maven-publish")
+}
+
+publishing {
+    repositories {
+        def codeArtifactRepoProviderService = gradle.sharedServices.registrations.findByName("codeArtifactRepoProvider")
+        if (codeArtifactRepoProviderService == null) {
+            throw new IllegalStateException("Please apply the hr.rao.android.plugin.ca plugin in the settings file first and configure the codeArtifact extension")
+        }
+        maven(codeArtifactRepoProviderService.service.get()::configureRepo)
+    }
+}
+
