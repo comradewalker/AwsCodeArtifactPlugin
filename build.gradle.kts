@@ -62,7 +62,7 @@ mavenPublishing {
 
     signAllPublications()
 
-    coordinates("io.github.comradewalker", "aws-ca", "1.0.1-SNAPSHOT")
+    coordinates("io.github.comradewalker", "aws-ca", "1.0.1")
 
     pom {
         name.set("AWS CodeArtifact Plugin")
