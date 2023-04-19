@@ -1,17 +1,24 @@
 plugins {
+    `kotlin-dsl`
     id("groovy-gradle-plugin")
     id("maven-publish")
     id("com.gradle.plugin-publish") version "1.2.0"
 }
 
 group = "hr.rao.android.plugin"
-version = "1.0.1"
+version = "1.0.14-kts"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
 
     withSourcesJar()
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_11.toString()
+    }
 }
 
 tasks.named("publish") {
@@ -70,25 +77,22 @@ dependencies {
     testImplementation("com.github.tomakehurst:wiremock-jre8-standalone:2.35.0")
 }
 
-pluginBundle {
-    website.set("https://www.rao.hr")
-}
-
 gradlePlugin {
-
+    website.set("https://www.rao.hr")
+    vcsUrl.set("https://www.rao.hr")
     plugins {
         create("codeArtifactPlugin") {
             id = "hr.rao.android.plugin.ca"
             displayName = "A settings plugin (AGP) that configures AWS CA repository"
             description = "Configures AWS CA Maven repository as source for project (AGP) plugins and project dependencies."
 //            tags.set(["tags", "for", "your", "plugins"])
-            implementationClass = "hr.rao.android.plugin.ca.settings.gradle"
+            implementationClass = "hr.rao.android.plugin.CaPlugin"
         }
-        create("codeArtifactPlugin") {
-            id = "hr.rao.android.plugin.ca"
+        create("codeArtifactPublishPlugin") {
+            id = "hr.rao.android.plugin.ca-publish"
             displayName = "A project plugin (AGP) for publishing artifacts to AWS CA repository"
             description = "Configures AWS CA Maven repository for artifact publishing. Requires hr.rao.android.plugin.ca settings plugin to be applied and configured."
-            implementationClass = "hr.rao.android.plugin.ca-publish.gradle"
+            implementationClass = "hr.rao.android.plugin.CaPublishPlugin"
         }
     }
 }
