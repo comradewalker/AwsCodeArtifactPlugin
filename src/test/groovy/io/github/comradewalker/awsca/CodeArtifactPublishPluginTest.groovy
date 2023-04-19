@@ -1,4 +1,4 @@
-package hr.rao.android.plugin
+package io.github.comradewalker.awsca
 
 import org.gradle.testkit.runner.TaskOutcome
 
@@ -9,7 +9,7 @@ class CodeArtifactPublishPluginTest extends PluginTest {
         buildFile << """
             plugins {
                 id("java-library") 
-                id("hr.rao.android.plugin.ca-publish") 
+                id("io.github.comradewalker.aws-ca.ca-publish") 
             }
             publishing {
                 publications {
@@ -28,9 +28,9 @@ class CodeArtifactPublishPluginTest extends PluginTest {
         def result = runTaskWithFailure("publish")
 
         then:
-//        result.output.contains("Failed to apply plugin 'hr.rao.android.plugin.ca-publish'")
+//        result.output.contains("Failed to apply plugin 'io.github.comradewalker.aws-ca.ca-publish'")
         result.output.contains("FAILURE: Build failed with an exception.")
-        result.output.contains("Please apply the hr.rao.android.plugin.ca plugin in the settings file first and configure the codeArtifact extension")
+        result.output.contains("Please apply the io.github.comradewalker.aws-ca.ca plugin in the settings file first and configure the codeArtifact extension")
     }
 
     def "attempts to publish to CodeArtifact repository"() {
@@ -40,7 +40,7 @@ class CodeArtifactPublishPluginTest extends PluginTest {
         buildFile << """
             plugins {
                 id("java-library") 
-                id("hr.rao.android.plugin.ca-publish") 
+                id("io.github.comradewalker.aws-ca.ca-publish") 
             }
             publishing {
                 publications {

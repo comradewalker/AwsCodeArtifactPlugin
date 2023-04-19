@@ -1,11 +1,11 @@
-package hr.rao.android.plugin
+package io.github.comradewalker.awsca
 
 class CodeArtifactPluginTest extends PluginTest {
 
     def "not configuring the codeartifact repository emits a helpful error message"() {
         settingsFile.setText("""
             plugins {
-                id("hr.rao.android.plugin.ca")
+                id("io.github.comradewalker.aws-ca.ca")
             }
             $configuration
             ${settingsFile.text}

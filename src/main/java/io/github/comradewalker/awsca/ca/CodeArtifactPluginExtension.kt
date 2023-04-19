@@ -1,4 +1,4 @@
-package hr.rao.android.plugin.ca
+package io.github.comradewalker.awsca.ca
 
 import org.gradle.api.provider.Property
 

@@ -1,4 +1,4 @@
-package hr.rao.android.plugin
+package io.github.comradewalker.awsca
 
 import com.github.tomakehurst.wiremock.WireMockServer
 import com.github.tomakehurst.wiremock.client.WireMock
@@ -60,14 +60,14 @@ abstract class PluginTest extends Specification {
     void givenCodeArtifactWillReturnAuthToken() {
         wiremock.stubFor(
                 WireMock.post(WireMock.urlMatching("/v1/authorization-token.*"))
-                            .willReturn(WireMock.jsonResponse("""{"authorizationToken":"foobar","expiration":${System.currentTimeSeconds()+10}}""", 200))
+                        .willReturn(WireMock.jsonResponse("""{"authorizationToken":"foobar","expiration":${System.currentTimeSeconds() + 10}}""", 200))
         )
     }
 
     void givenCodeArtifactPluginIsConfigured() {
         settingsFile.setText("""
             plugins {
-                id("hr.rao.android.plugin.ca")
+                id("io.github.comradewalker.aws-ca.ca")
             }
             codeArtifact {
                 domain = "$domain"

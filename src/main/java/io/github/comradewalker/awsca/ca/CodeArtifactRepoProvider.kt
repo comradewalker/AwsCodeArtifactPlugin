@@ -1,4 +1,4 @@
-package hr.rao.android.plugin.ca
+package io.github.comradewalker.awsca.ca
 
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository
 import org.gradle.api.provider.Property
@@ -86,7 +86,7 @@ abstract class CodeArtifactRepoProvider : BuildService<CodeArtifactRepoProvider.
     
     or
         
-    configure<hr.rao.android.plugin.ca.CodeArtifactPluginExtension>{
+    configure<io.github.comradewalker.awsca.ca.CodeArtifactPluginExtension>{
         domain.set("repo-domain")
         accountId.set("123456789012")
         region.set("eu-central-1")

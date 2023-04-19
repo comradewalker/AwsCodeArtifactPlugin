@@ -1,6 +1,6 @@
-package hr.rao.android.plugin
+package io.github.comradewalker.awsca
 
-import hr.rao.android.plugin.ca.CodeArtifactRepoProvider
+import io.github.comradewalker.awsca.ca.CodeArtifactRepoProvider
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.provider.Provider
@@ -15,11 +15,14 @@ class CaPublishPlugin : Plugin<Project> {
 
         target.afterEvaluate {
             val codeArtifactRepoProviderService = target.gradle.sharedServices.registrations.findByName("codeArtifactRepoProvider")
-                ?: throw IllegalStateException("Please apply the hr.rao.android.plugin.ca plugin in the settings file first and configure the codeArtifact extension")
+                ?: throw IllegalStateException("Please apply the io.github.comradewalker.aws-ca.ca plugin in the settings file first and configure the codeArtifact extension")
 
             val publishing = extensions.getByType(PublishingExtension::class.java)
             publishing.repositories {
-                maven { (codeArtifactRepoProviderService.service as Provider<CodeArtifactRepoProvider>).get().configureRepo(this) }
+                maven {
+                    @Suppress("UNCHECKED_CAST")
+                    (codeArtifactRepoProviderService.service as Provider<CodeArtifactRepoProvider>).get().configureRepo(this)
+                }
             }
         }
     }

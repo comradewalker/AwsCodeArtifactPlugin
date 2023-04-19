@@ -1,7 +1,7 @@
-package hr.rao.android.plugin
+package io.github.comradewalker.awsca
 
-import hr.rao.android.plugin.ca.CodeArtifactPluginExtension
-import hr.rao.android.plugin.ca.CodeArtifactRepoProvider
+import io.github.comradewalker.awsca.ca.CodeArtifactPluginExtension
+import io.github.comradewalker.awsca.ca.CodeArtifactRepoProvider
 import org.gradle.api.Action
 import org.gradle.api.Plugin
 import org.gradle.api.initialization.Settings
