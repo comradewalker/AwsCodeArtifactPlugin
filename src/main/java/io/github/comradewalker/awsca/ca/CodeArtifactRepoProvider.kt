@@ -1,5 +1,8 @@
 package io.github.comradewalker.awsca.ca
 
+import java.net.URI
+import java.time.Instant
+import java.util.function.Consumer
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository
 import org.gradle.api.provider.Property
 import org.gradle.api.services.BuildService
@@ -8,9 +11,6 @@ import software.amazon.awssdk.regions.Region
 import software.amazon.awssdk.services.codeartifact.CodeartifactClient
 import software.amazon.awssdk.services.codeartifact.model.GetAuthorizationTokenRequest
 import software.amazon.awssdk.services.codeartifact.model.GetAuthorizationTokenResponse
-import java.net.URI
-import java.time.Instant
-import java.util.function.Consumer
 
 abstract class CodeArtifactRepoProvider : BuildService<CodeArtifactRepoProvider.Params> {
     fun configureRepo(spec: MavenArtifactRepository) {
@@ -27,7 +27,11 @@ abstract class CodeArtifactRepoProvider : BuildService<CodeArtifactRepoProvider.
         }
     }
 
-    fun getToken(domain: String, accountId: String, region: String): String {
+    fun getToken(
+        domain: String,
+        accountId: String,
+        region: String,
+    ): String {
         if (token == null || token!!.expiration() <= Instant.now()) {
             token = makeCodeArtifactClient(region).getAuthorizationToken(Consumer { builder: GetAuthorizationTokenRequest.Builder -> builder.domain(domain).domainOwner(accountId) })
         }
@@ -44,7 +48,13 @@ abstract class CodeArtifactRepoProvider : BuildService<CodeArtifactRepoProvider.
     }
 
     companion object {
-        private fun configureCodeArtifactUrl(spec: MavenArtifactRepository, domain: String, accountId: String, region: String, repo: String) {
+        private fun configureCodeArtifactUrl(
+            spec: MavenArtifactRepository,
+            domain: String,
+            accountId: String,
+            region: String,
+            repo: String,
+        ) {
             val overriddenCodeArtifactUrl = getOverriddenCodeArtifactUrl()
             spec.isAllowInsecureProtocol = !overriddenCodeArtifactUrl.isNullOrEmpty()
             val urlPrefix = overriddenCodeArtifactUrl ?: "https:/"

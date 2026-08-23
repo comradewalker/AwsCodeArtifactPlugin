@@ -4,4 +4,4 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name="ca-plugin"
+rootProject.name = "ca-plugin"

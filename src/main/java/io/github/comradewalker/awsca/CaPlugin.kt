@@ -11,8 +11,7 @@ class CaPlugin : Plugin<Settings> {
     override fun apply(target: Settings) {
         val codeArtifact = target.extensions.create("codeArtifact", CodeArtifactPluginExtension::class.java)
         val serviceProvider =
-            target.gradle.sharedServices.registerIfAbsent("codeArtifactRepoProvider", CodeArtifactRepoProvider::class.java)
-            {
+            target.gradle.sharedServices.registerIfAbsent("codeArtifactRepoProvider", CodeArtifactRepoProvider::class.java) {
                 parameters.domain.set(codeArtifact.domain)
                 parameters.accountId.set(codeArtifact.accountId)
                 parameters.region.set(codeArtifact.region)
@@ -51,5 +50,4 @@ val Settings.codeArtifact: CodeArtifactPluginExtension
 /**
  * Configures the [CodeArtifactPluginExtension] extension.
  */
-fun Settings.codeArtifact(configure: Action<CodeArtifactPluginExtension>): Unit =
-    (this as ExtensionAware).extensions.configure("codeArtifact", configure)
+fun Settings.codeArtifact(configure: Action<CodeArtifactPluginExtension>): Unit = (this as ExtensionAware).extensions.configure("codeArtifact", configure)

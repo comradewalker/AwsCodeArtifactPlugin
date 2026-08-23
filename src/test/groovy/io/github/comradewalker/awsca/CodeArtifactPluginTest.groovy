@@ -62,11 +62,8 @@ class CodeArtifactPluginTest extends PluginTest {
 
         then:
 
-        //for gradle-7.5
-        result.output.contains("No such host is known")
-        //for gradle-8.0.1 (AS Flamingo)
-//        result.output.contains("Could not find foo:bar:42")
-//        result.output.contains("Searched in the following locations")
+        result.output.contains("Could not find foo:bar:42")
+        result.output.contains("Searched in the following locations")
 //        result.output.contains("- ${wiremock.baseUrl()}/${domain}-${accountId}.d.codeartifact.${region}.amazonaws.com/maven/$repo/foo/bar/42/bar-42.pom")
     }
 }
