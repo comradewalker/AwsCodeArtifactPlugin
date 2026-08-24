@@ -1,9 +1,11 @@
-import com.vanniktech.maven.publish.SonatypeHost
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
+    id("org.jlleitschuh.gradle.ktlint") version "14.2.0"
     `kotlin-dsl`
     id("groovy-gradle-plugin")
-    id("com.vanniktech.maven.publish") version "0.25.2"
+    id("com.vanniktech.maven.publish") version "0.37.0"
 }
 
 java {
@@ -13,9 +15,9 @@ java {
     withSourcesJar()
 }
 
-tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
+kotlin {
+    compilerOptions {
+        jvmTarget = JvmTarget.JVM_11
     }
 }
 
@@ -33,11 +35,12 @@ tasks.withType<Test> {
 dependencies {
     implementation("software.amazon.awssdk:codeartifact:2.20.44")
 
-    testImplementation(platform("org.spockframework:spock-bom:2.4-M1-groovy-3.0"))
+    testImplementation(platform("org.spockframework:spock-bom:2.4-groovy-4.0"))
     testImplementation("org.spockframework:spock-core")
     testImplementation("com.github.tomakehurst:wiremock-jre8-standalone:2.35.0")
-}
 
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+}
 
 gradlePlugin {
     plugins {
@@ -58,11 +61,11 @@ gradlePlugin {
 }
 
 mavenPublishing {
-    publishToMavenCentral(SonatypeHost.S01)
+    publishToMavenCentral()
 
     signAllPublications()
 
-    coordinates("io.github.comradewalker", "aws-ca", "1.0.1")
+    coordinates("io.github.comradewalker", "aws-ca", "1.1.0")
 
     pom {
         name.set("AWS CodeArtifact Plugin")
@@ -88,5 +91,14 @@ mavenPublishing {
             connection.set("scm:git:git://github.com/comradewalker/AwsCodeArtifactPlugin.git")
             developerConnection.set("scm:git:ssh://git@github.com/comradewalker/AwsCodeArtifactPlugin.git")
         }
+    }
+}
+
+ktlint {
+    android.set(false)
+    outputToConsole.set(true)
+    outputColorName.set("RED")
+    reporters {
+        reporter(ReporterType.PLAIN)
     }
 }
